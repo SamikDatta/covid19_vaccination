@@ -1,28 +1,19 @@
-# COVID-19 ODE model
+# The impact of Covid-19 vaccination in Aotearoa New Zealand: a modelling study
 
 # Disclaimer
 
-This model is no longer being actively developed and maintained after 30 June 2023. Model assumptions and parameter values are likely to become invalid over time as the epidemiological situation changes. This is particularly true for assumptions regarding case ascertainment, contact rates, seasonality, severity and frequency of reinfection with different variants, and effectiveness of vaccines and antiviral treatments. Results must therefore be interpreted with caution.
+This model is based on the Covid-19 ODE model produced by Covid-19 Modelling Aotearoa. Please see the repo [here](https://gitlab.com/tpmcovid/ode-model) for more details.
 
 
 
 # Overview
 
-This repository contains the code for Covid-19 Modelling Aotearoa's "ODE model" for the transmission, control and impact of Covid-19 in the Aotearoa New Zealand population. 
-
-This project was developed and used between July 2022 and June 2023 to simulate the spread of the Omicron variants of COVID-19 in Aotearoa New Zealand and to provide policy advice for the New Zealand Government. The model is an age-structured ordinary differential equation model that includes the following processes and mechanisms: vaccination according to Ministry of Health data on the number of vaccine doses given in each five-year age group; waning of vaccine-derived and infection-derived immunity and consequent reinfection; differential levels of immunity against infection compared to severe disease and death; simplified model for the effect of new variants of SARS-CoV-2; change in age-specific contact rates and case ascertainment rates over time; model for the effect of antiviral medications on infection fatality rate according to Ministry of Healh data on antiviral prescriptions. 
+This repository contains the code for the article 'The impact of Covid-19 vaccination in Aotearoa New Zealand: a modelling study', which shows the effect of different vaccination strategies (counter-factual to what occurred in reality) on the evolution of the pandemic.
 
 The code includes a simple approximate Bayesian approximation (ABC) method to fit the model to epidemiological data, and account for the effect of uncertain parameters. The code also inclues a scenario simulation feature allowing to change several model parameters and simulate their effect on daily infections, reported cases, hospital admissions, hospital occupancy, and fatalities.
 
-
 An earlier version of this model is described in the publication:
 * Lustig A., Vattiato G., Maclaren O., Watson LM., Datta S. and Plank MJ. (2023) Modelling the impact of the Omicron BA.5 subvariant in New Zealand. Journal of the Royal Society Interface 20(199) http://dx.doi.org/10.1098/rsif.2022.0698.
-
-Some subsequent updates to the model are summarised at:
-https://www.covid19modelling.ac.nz/modelling-covid-19-dynamics-in-new-zealand-august-2022-to-february-2023/
-
-Full documentation on modelling assumptions can be found in the *C_ODE_model_assumptions.pdf* file in this Git repo.
-
 
 
 # Developers
@@ -38,9 +29,7 @@ Code peer review was provided by Ning Hua and Rachel Owens at Precision Driven H
 
 If you have questions, please email michael(dot)plank(at)canterbury(dot)ac(dot)nz
 
-
 Only code and other small files are kept in this repo. The data and outputs produced can be kept locally, and are not automatically pushed to the repo.
-
 
 
 # 2. Prerequisites and installation
@@ -48,13 +37,13 @@ This project was coded under version 2021b of Matlab. Some of the features might
 
 To install the COVID-19 ODE model from a terminal or command line:
 1) Open the terminal and navigate to the desired destination folder
-2) Type `git clone https://gitlab.com/tpmcovid/ode-model.git` and press enter
+2) Type `git clone https://github.com/SamikDatta/covid19_vaccination.git` and press enter
 3) All project folders and files should now be in your chosen repository
 
 To install the COVID-19 ODE model from the Matlab software
 1) Open Matlab
 2) On the **Home** tab, click **New > Project > From Git**.
-3) Enter the HTTPS repository path `https://gitlab.com/tpmcovid/ode-model.git` into the **Repository path** field
+3) Enter the HTTPS repository path `https://github.com/SamikDatta/covid19_vaccination.git` into the **Repository path** field
 4) In the **Sandbox** field, select the working folder where you want to put the retrieved files for your new project
 5) Click **Retrieve**
 6) All folders and files should now be in your chosen repository
@@ -66,9 +55,7 @@ Here is a list and description of the folders that will get cloned in the chosen
 * **postProcessing**: this folder contains the functions needed to process the outputs from running the ODE model, as described further in the ReadMe in that subfolder
 * **processMOHdata**: this folder contains the functions needed to process the line data on COVID-related cases, hospitalisations and deaths, which is used for the model fitting procedure and plots, as described further in Section 3 of this README
 * **processVaxData**: this folder contains the functions needed to process and check the vaccination data, as described in Section 4 of this README
-* **reports**: this folder contains the html files linked to past reports provided to the MoH
 * **resources/project**
-* **tests**
 
 
 To run the COVID-19 ODE model, you will also have to make sure the following data files are in the indicated folders:
@@ -77,9 +64,9 @@ To run the COVID-19 ODE model, you will also have to make sure the following dat
 |--------------------|---|-----|
 |*TPM_comm_cases_info_[YYYY-MM-DD].csv*|*processMOHdata*| This is the unit report data, and is sourced directly from the Ministry of Health, and is not publicly available. |
 |*TPM_vaccine_[YYYY-MM-DD].csv*|*processVaxData*| This is the vaccination data, and is sourced directly from the Ministry of Health, and is not publicly available. |
-|*epidata_by_age_and_vax_[DD-MMM-YYYY].mat*|*data*| See Section 3 of this README |
-|*vaccine_data_national_[YYYY-MM-DD].mat*|*data*| See Section 4 of this README |
-|*reshaped_b2_projections_final_[YYYY-MM-DD].csv*|*data*| This was constructed by combining historical vcaccine uptake data with future uptake projections provided by the Ministry of Health. As these projections have now been superceded by more recent uptake data, this file is now obsolete and not needed. |
+|*epidata_by_age_and_vax_[DD-MMM-YYYY].mat*|*data*| See Section 3 of the README for the main Covid-19 ODE model [here](https://gitlab.com/tpmcovid/ode-model) |
+|*vaccine_data_national_[YYYY-MM-DD].mat*|*data*| See Section 4 of the README for the main Covid-19 ODE model [here](https://gitlab.com/tpmcovid/ode-model) |
+|*reshaped_b2_projections_final_[YYYY-MM-DD].csv*|*data*| This was constructed by combining historical vaccine uptake data with future uptake projections provided by the Ministry of Health. As these projections have now been superceded by more recent uptake data, this file is now obsolete and not needed. |
 |*therapeutics_by_age_[DD-MMM-YYYY].mat*|*data*| ? |
 |*hospOccDataTotals_MOH_[YYYY-MM-DD].xlsx*|*data*|Data from file *covid-cases-in-hospital-counts-location.xlsx* file in the *nz-covid-data/cases/* folder of the [MOH Github repo](https://github.com/minhealthnz/nz-covid-data/tree/main/cases)|
 |*popsize_national.xlsx*|*data*| ? |
@@ -103,7 +90,6 @@ The model takes in a processed version of the *TPM_comm_cases_info_YYYY-MM-DD.cs
 4. Run `processVaxDataNational.m`, which will save a *vaccine_data_YYYY-MM-DD.csv* file in the `data` folder. This will contain a time series for the cumulative number of kth doses (1, 2, 3, 4+) given to people in each 5-year age band (the last age band being 75+ years)
 5. It is strongly recommended to set `check45doses = 1`, this will plot timeseries of the cumulative doses (up to 5+ doses), which will help spot any inconsistencies in the data.
 6. In the main file *naiveABCSEIR.m*, change the `dateVax` variable at the top of the script to the same datestamp as the one in the *data/vaccine_data_YYYY-MM-DD.csv* file you just produced.
-
 
 # 5. How to run the ODE model
 
@@ -138,7 +124,11 @@ To load a previous model fit, change the `load100` parameter to `1` and update t
 
 In this section, it is also possible to display a table of posterior values corresponding to "best fitting" posterior, together with the interquartile range associated to each fitted parameter. To display this table, change the `showPosteriorStats` parameter to `1`.
 
-## **Section 4 - scenario simulations**
+## **Section 4 - checking vaccination rates (optional)**
+
+This section plots the vaccination rates for the different scenarios presented in the paper.
+
+## **Section 5 - scenario simulations**
 Using the scenario parameter values defined in `getBasePar.m`, this is where scenarios are run from the pre-loaded posterior parameter sets. To define the different scenario, open the `getBasePar.m` function and scroll down to the last section of the script. There parameters that can currently be customised are the following:
 
 * `policyDate`: date where a new policy affecting transmission takes place
@@ -154,7 +144,7 @@ Once the scenario parameter values have been defined in `getBasePar.m`, the scri
 The following output file will then be saved in the `results` folder:
 * *results_Uni_Filtered100_SCENARIO NAME_DD-MMM-YYYY_fit.mat* : Matlab structure containing the results of the scenario simulations for each of the posterior parameter sets, labeled by scenario name and datestamp of the data used for the model fitting. Note that this is an intermediary result file, which will be processed in the next section.
 
-## **Section 5 - scenario result post-processing**
+## **Section 6 - scenario result post-processing**
 This is where the scenario results are processed to produce the 95% bands data and best-fit data. 
 The following output files will be produced and saved in the `results` folder:
 * *results_Uni_Filtered95_SCENARIO NAME_DD-MMM-YYYY_fit.mat* : Matlab structure containing the results of the scenario simulations for the 95% best fitting parameter sets out of the posterior parameter sets.
@@ -162,7 +152,7 @@ The following output files will be produced and saved in the `results` folder:
 
 If the `cRampDeltaPolicy` parameter was set to have a low-middle-high value for each policy tested, this section will merge the results for each of those three levels into a single result file.
 
-## **Section 6 - plots**
+## **Section 7 - plots**
 This is where the aggregated and age-split plots for the scenario outputs are created. To run this, make sure that the variable `folderIn` points to the correct folder (if running the entire main script, or if the results to plot are kept in the `results` folder, simply set `folderIn = "results/"`). 
 
 This script will output two figure in the `results` folder in .png format:
@@ -171,6 +161,12 @@ This script will output two figure in the `results` folder in .png format:
 
 Note that the plotting functions are not currently compatible with results produced using the low-middle-high values for the `cRampDeltaPolicy` scenarios parameter, this section will produce an error if trying to run it with those results, but this will not affect the rest of the model run.
 
-## Acknowledgements 
+# 6. Performing the sensitivity run
+
+If you replace the population size file "popsize_national.xlsx" with "popproj_national2018-21.xlsx" (an alternative dataset from Stats NZ), the sensitivity run will be performed. This can be done by commenting line 26 and uncommenting line 27 of 'naiveABCSEIR.m'.
+
+
+
+# Acknowledgements 
 The authors acknowledge the role of the New Zealand Ministry of Health, StatsNZ, and the Institute of Environmental Science and Research in supplying data in support of this work, and the Covid-19 Modelling Government Steering for helping to design modelling questions and to interpret model outputs. The authors are grateful to Ning Hua and Rachel Owens at Precision Driven Health for code peer review, and to Nigel French, Emily Harvey, Markus Luczak-Roesch, Dion O'Neale, Matt Parry and Patricia Priest for feedback on the model. The authors acknowledge the contributions of Rachelle Binny, Shaun Hendy, Kannan Ridings, Nicholas Steyn and Leighton Watson to a previous model from which this model was developed.
 
