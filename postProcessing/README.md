@@ -23,7 +23,7 @@ The script will produce five Excel spreadsheets in the folder specified:
 - *hospOcc_with_bands_[SCENARIONAME]_[DD-MM-YYYY]_fit.xlsx*
 - *deaths_with_bands_[SCENARIONAME]_[DD-MM-YYYY]_fit.xlsx*
 
-## How to process results files into Excel spreadsheets (for producing R Markdown dashboards, e.g. `reports/2023-05-01-May-2023-isolation-scenarios.Rmd`)
+## How to process results files into Excel spreadsheets (for producing R Markdown dashboards)
 1. Open `writeRMarkdownSpreadsheets.m`
 2. Change the variable `filename_base` to the base folder you want the Excel files to be saved in. Excel files for each scenario will be saved into a separate subfolder within this.
 3. Change the variable `scenarios` to the names of the scenarios you have run (i.e. the name which distinguishes the outputs from the ODE model).
@@ -45,7 +45,7 @@ The script will produce 13 Excel spreadsheets in each subfolder for one scenario
 - *reinfections_with_bands.xlsx*
 - *weighted_sus_with_bands.xlsx*
 
-## How to process results files into Excel spreadsheets (for producing R Markdown comparison documents, e.g. `reports/2023-04-28 Compare scenarios update.qmd`)
+## How to process results files into Excel spreadsheets (for producing R Markdown comparison documents)
 1. Open `writeRMarkdownSpreadsheetsCompare.m`
 2. Change the variable `scenarios` to the names of the scenarios you have run (i.e. the name which distinguishes the outputs from the ODE model).
 3. Change the variables `saveStr` and `saveStr_age` to the names of the Excel files you want to produce for the total and age-split numbers respectively.
