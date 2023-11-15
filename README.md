@@ -15,6 +15,7 @@ The code includes a simple approximate Bayesian approximation (ABC) method to fi
 An earlier version of this model is described in the publication:
 * Lustig A., Vattiato G., Maclaren O., Watson LM., Datta S. and Plank MJ. (2023) Modelling the impact of the Omicron BA.5 subvariant in New Zealand. Journal of the Royal Society Interface 20(199) http://dx.doi.org/10.1098/rsif.2022.0698.
 
+Full documentation on modelling assumptions can be found in the *C_ODE_model_assumptions.pdf* file in the main Git repo [here](https://gitlab.com/tpmcovid/ode-model).
 
 # Developers
 
