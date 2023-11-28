@@ -134,7 +134,7 @@ save(fOut, 't', 'epiVarsCompact', 'Theta', 'parBase', ...
 % (can start from here if fitting already run)
 load100 = 1;
 if load100 == 1
-    fIn = 'results/results_Uni_Filtered100_13AugFit_14OctRun.mat';
+    fIn = sprintf('results/results_Uni_Filtered100_%sFit_%sRun.mat', string(datetime(dateLbl, 'Format', 'ddMMM')), runDate);
     load(fIn);
     fprintf('\nLoading filtered 100...\nOriginal number samples assuming 1%% acceptance rate = %i\n', ...
         size(epiVarsCompact,2)/0.01)
