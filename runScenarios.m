@@ -49,6 +49,9 @@ end
 
 
 
+
+%% 3. Scenario simulations
+
 % End of simulation date
 tModelRunTo = datenum('06-Aug-2023'); % needs to be 6th August 2023 or later, otherwise crashes (related to antivirals)
 
@@ -59,13 +62,9 @@ parBase = getBasePar(tModelRunTo, myDataPath, dataFileNames);
 % Plot vaccine doses vs time for each scenario
 makeVaccinationPlots(parBase, parsToFit)
 
-
-
-
-%% 3. Scenario simulations
-
 nScenarios = parBase.nScenarios; % number of scenarios
 
+t = parBase.tBase;
 for i = 1:nScenarios
 
     % Table containing scenario-specific parameters
