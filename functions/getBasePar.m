@@ -1,11 +1,10 @@
-function par = getBasePar(tMax, myDataPath, popSizeFname, CMdataFname, ...
-    vaxDataFname, vaxProjFname, AVdataFname)
+function par = getBasePar(tMax, myDataPath, dataFileNames)
 % Function to create structure of base parameters that stay fixed for all
 % simulations
 % INPUT:
 % - tMax: datenum variable corresponding to last datapoint
-% - dateVax: datestamp of vaccine data
-% - dateAV: datestamp of antivirals (therapeutics) data
+% - myDataPath: path to folder containing data
+% - dataFileNames: structure with fields containing the filenames of the data files to be read in
 % OUTPUT:
 % - par: structure of parameters
 
@@ -37,7 +36,7 @@ par.nHospComp = 5;
 par.nDeathComp = 6;
 
 % Load NZ population structure
-fs = myDataPath + popSizeFname; 
+fs = myDataPath + dataFileNames.popSizeFname; 
 popSizeData = readmatrix(fs); 
 popSizeDataBench = popSizeData;
 
@@ -69,7 +68,7 @@ par.borderSeeds = 300;
 
 %------------- Load Contact Matrix and Define NGM --------------
 % Get Prem et al contact matrix from data folder
-C = readmatrix(myDataPath + CMdataFname); 
+C = readmatrix(myDataPath + dataFileNames.CMdataFname); 
 
 % Fill entries with population distribution % Aggregate 75+ age-groups
 popCountBench = [popSizeDataBench(1:par.nAgeGroups-1, 2); ...
@@ -183,7 +182,7 @@ par.subClinPtestMult = 0.4;
 %-------------------------- Get vaccine data ----------------------------
 par.vaccImmDelay = 14;  % delay in nb of days from vaccination to immunity
 [~, par.doses1, par.doses2, par.doses3, par.doses4plus] = ...
-    getVaccineData(myDataPath, vaxDataFname, vaxProjFname, par.vaccImmDelay, par.date0, par.tEnd);
+    getVaccineData(myDataPath, dataFileNames.vaxDataFname, dataFileNames.vaxProjFname, par.vaccImmDelay, par.date0, par.tEnd);
 
 smoothWindow = 56;
 par.nDoses1Smoothed0 = [zeros(1, par.nAgeGroups); diff(smoothdata(par.doses1, 'movmean', smoothWindow));];
@@ -193,7 +192,7 @@ par.nDoses4Smoothed0 = [zeros(1, par.nAgeGroups); diff(smoothdata(par.doses4plus
 
 
 %---------------- Get antivirals data -------------------
-therap_data = load(myDataPath + AVdataFname);
+therap_data = load(myDataPath + dataFileNames.AVdataFname);
 movmean_period = 8 * 7; % Moving mean over 8 weeks
 tailDays_toCut = 1 * 7; % Remove last 1 weeks of data to remove lagged entries
 th_dates = therap_data.outTab.date(1:end-tailDays_toCut);
@@ -391,7 +390,7 @@ par.scenarios.scenarioNumber = (1:par.nScenarios)';
 
 % flag for sensitivity run
 
-if popSizeFname == 'popproj_national2018-21.xlsx'
+if dataFileNames.popSizeFname == 'popproj_national2018-21.xlsx'
     par.sensitivity_flag = 1; % make 1
 else
     par.sensitivity_flag = 0; % normally 0

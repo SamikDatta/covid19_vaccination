@@ -1,0 +1,6 @@
+function parsToFit = getParsToFit()
+
+parsToFit = {'dateSeed', 'Cstart', 'Cramp', 'rampDays', 'rampStart', ...
+    'pTestMult', 'IFR', 'IHR', 'relaxAlpha', 'MRampDays', 'vocWane', ...
+    'waneRate', 'Cramp2', 'ramp2Days', 'ramp2Start', 'aViralEffect'};
+
