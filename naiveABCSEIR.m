@@ -18,7 +18,7 @@ nParsToFit = length(parsToFit);
 
 % Filenames of input datafiles
 dateLbl = "13-Aug-2023";                    % Datestamp of line data used for fitting and plotting
-runDate = string(datetime("today", 'Format', 'ddMMM')));        % Set this to today's date if running whole script from start to end, or to a previously saved date if only rerunning from sec. 3 without redoing model fit 
+runDate = string(datetime("today", 'Format', 'ddMMM'));        % Set this to today's date if running whole script from start to end, or to a previously saved date if only rerunning from sec. 3 without redoing model fit 
 
 epiDataFname = "epidata_by_age_and_vax_" + dateLbl + ".mat";    % Line data
 vaxDataFname = "vaccine_data_national_2023-06-06";              % Vax data
