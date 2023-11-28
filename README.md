@@ -8,14 +8,9 @@ This repository contains the code for the article 'The impact of Covid-19 vaccin
 
 The code includes a simple approximate Bayesian approximation (ABC) method to fit the model to epidemiological data, and account for the effect of uncertain parameters. The code also inclues a scenario simulation feature allowing to change several model parameters and simulate their effect on daily infections, reported cases, hospital admissions, hospital occupancy, and fatalities.
 
-Full documentation for the code on this repo can be found in the `doc` folder.
+An earlier version of the code on this repo (see [here](https://gitlab.com/tpmcovid/ode-model) was peer reviewed by Ning Hua at Precision Driven Health. Documentation of the code following this review can be found in the `doc` folder on this repo.  
 
-This model is based on the Covid-19 ODE model produced by Covid-19 Modelling Aotearoa. Please see the repo [here](https://gitlab.com/tpmcovid/ode-model) for more details.
-
-An earlier version of this model is described in the publication:
-* Lustig A., Vattiato G., Maclaren O., Watson LM., Datta S. and Plank MJ. (2023) Modelling the impact of the Omicron BA.5 subvariant in New Zealand. Journal of the Royal Society Interface 20(199) http://dx.doi.org/10.1098/rsif.2022.0698.
-
-Only code and other small files are kept in this repo. The data and outputs produced can be kept locally, and are not automatically pushed to the repo.
+Only code and other small files are kept in this repo. The data and outputs produced can be kept locally, and are not automatically pushed to the repo. The raw data cannot be shared publicly due to confidentiality issues. 
 
 
 # 2. Prerequisites and installation
