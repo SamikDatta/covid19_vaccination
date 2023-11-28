@@ -18,6 +18,8 @@ nParsToFit = length(parsToFit);
 
 % Filenames of input datafiles
 dateLbl = "13-Aug-2023";                    % Datestamp of line data used for fitting and plotting
+runDate = string(datetime("today", 'Format', 'ddMMM')));        % Set this to today's date if running whole script from start to end, or to a previously saved date if only rerunning from sec. 3 without redoing model fit 
+
 epiDataFname = "epidata_by_age_and_vax_" + dateLbl + ".mat";    % Line data
 vaxDataFname = "vaccine_data_national_2023-06-06";              % Vax data
 vaxProjFname = "reshaped_b2_projections_final_2022-07-13.csv";  % Vax projections (currently not used)
@@ -99,7 +101,7 @@ pUniFiltered100 = pUni(condition,:);
 dUniFiltered100 = dUni(condition);
 
 % Plot violin plots of posterior distribution of parameters
-f = figure;
+f = figure(1);
 f.Position = [50 200 1000 400];
 vs = violinplot(pUniFiltered100, cellstr(parsToFit));
 if parBase.sensitivity_flag == 0
@@ -188,113 +190,52 @@ for i = 1:parBase.nScenarios
 
 end
 
-% Now try plotting
+% Plot cumulative doses for each scenario
 
-f = figure(1);
+legLbls = ["Baseline", "10% drop", "20-25 yo rates", "Euro rates", "Māori rates"];
+f = figure(2);  
 f.Position = [100 100 1200 800];
-titles = {'0-4', '5-9', '10-14', '15-19', '20-24', '25-29', ...
-    '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', ...
-    '65-69', '70-74', '75+'};
+titles = {'0-5', '5-10', '10-15', '15-20', '20-25', '25-30', ...
+    '30-35', '35-40', '40-45', '45-50', '50-55', '55-60', '60-65', ...
+    '65-70', '70-75', '75+'};
 tiledlayout(4, 4);
 for ag = 1:16
     nexttile
     hold on
     title(titles(ag))
-    plot(all_dates, vac_table.("total doses"){1}(:, ag), ...
-        all_dates, vac_table.("total doses"){2}(:, ag), ...
-        all_dates, vac_table.("total doses"){5}(:, ag), ...
-        all_dates, vac_table.("total doses"){6}(:, ag), ...
-        all_dates, vac_table.("total doses"){7}(:, ag), ...
-        all_dates, vac_table.("total doses"){8}(:, ag), ...
-        all_dates, vac_table.("total doses"){9}(:, ag));
+    plot(all_dates, cumsum(vac_table.("total doses"){1}(:, ag))/parBase.popCount(ag), ...
+        all_dates, cumsum(vac_table.("total doses"){6}(:, ag))/parBase.popCount(ag), ...
+        all_dates, cumsum(vac_table.("total doses"){7}(:, ag))/parBase.popCount(ag), ...
+        all_dates, cumsum(vac_table.("total doses"){9}(:, ag))/parBase.popCount(ag), ...
+        all_dates, cumsum(vac_table.("total doses"){8}(:, ag))/parBase.popCount(ag) );
     hold off
-    if ag == 14
-        l = legend(vac_table.scenario([1 2 5:9]));
-        l.Layout.Tile = 'East';
+    xlim([datetime(2021, 1, 1), datetime(2023, 7, 1)] )
+    ylim([0 4])
+    grid on
+    if ag == 1
+        legend(legLbls, 'Location', 'NorthWest');
+    end
+    if mod(ag, 4) == 1
+        ylabel('doses per capita')
     end
 end
 
+% Pull some summary ethnicity stats for paper
+ti = find(t == datenum('01FEB2022'));
+AM = sum(vac_table.("second dose"){8}(1:ti,:))
+AE = sum(vac_table.("second dose"){9}(1:ti,:))
+pM1 = sum(AM(4:13))/sum(parBase.popCount(4:13))
+pM2 = sum(AM(14:end))/sum(parBase.popCount(14:end))
+pE1 = sum(AE(4:13))/sum(parBase.popCount(4:13))
+pE2 = sum(AE(14:end))/sum(parBase.popCount(14:end))
 
-% Try just plotting national data (scenario 1) against Maori data (scenario
-% 6)
+BM = sum(vac_table.("third dose"){8}(1:ti,:))
+BE = sum(vac_table.("third dose"){9}(1:ti,:))
+qM1 = sum(BM(4:13))/sum(parBase.popCount(4:13))
+qM2 = sum(BM(14:end))/sum(parBase.popCount(14:end))
+qE1 = sum(BE(4:13))/sum(parBase.popCount(4:13))
+qE2 = sum(BE(14:end))/sum(parBase.popCount(14:end))
 
-f = figure(2);
-f.Position = [200 100 1200 800];
-titles = {'0-4', '5-9', '10-14', '15-19', '20-24', '25-29', ...
-    '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', ...
-    '65-69', '70-74', '75+'};
-tiledlayout(4, 4);
-for ag = 1:16
-    nexttile
-    hold on
-    title(titles(ag))
-    plot(all_dates, vac_table.("total doses"){1}(:, ag), ...
-        all_dates, vac_table.("total doses"){8}(:, ag));
-    hold off
-    if ag == 14
-        l = legend(vac_table.scenario([1 8]));
-        l.Layout.Tile = 'East';
-    end
-end
-
-% Age-split of previous plot to diagnose
-
-f = figure(3);
-col_mat = get(gca, 'colororder'); % get colours
-f.Position = [300 100 1200 800];
-titles = {'0-4', '5-9', '10-14', '15-19', '20-24', '25-29', ...
-    '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', ...
-    '65-69', '70-74', '75+'};
-tiledlayout(4, 4);
-for ag = 1:16
-    nexttile
-    hold on
-    title(titles(ag))
-    p = plot(all_dates, vac_table.("first dose"){1}(:, ag), '-', ...
-        all_dates, vac_table.("first dose"){8}(:, ag), '--', ...
-        all_dates, vac_table.("second dose"){1}(:, ag), '-', ...
-        all_dates, vac_table.("second dose"){8}(:, ag), '--', ...
-        all_dates, vac_table.("third dose"){1}(:, ag), '-', ...
-        all_dates, vac_table.("third dose"){8}(:, ag), '--', ...
-        all_dates, vac_table.("fourth dose"){1}(:, ag), '-', ...
-        all_dates, vac_table.("fourth dose"){8}(:, ag), '--');
-    p(1).Color = col_mat(1, :);
-    p(2).Color = col_mat(1, :);
-    p(3).Color = col_mat(2, :);
-    p(4).Color = col_mat(2, :);
-    p(5).Color = col_mat(3, :);
-    p(6).Color = col_mat(3, :);
-    p(7).Color = col_mat(4, :);
-    p(8).Color = col_mat(4, :);
-    hold off
-    if ag == 14
-        l = legend('Baseline 1st dose','Maori 1st dose', 'Baseline 2nd dose','Maori 2nd dose', ...
-            'Baseline 3rd dose','Maori 3rd dose', 'Baseline 4th dose','Maori 4th dose');
-        l.Layout.Tile = 'East';
-    end
-end
-
-% Try just plotting national data (scenario 1) against European data (scenario
-% 7)
-
-f = figure(4);
-f.Position = [400 100 1200 800];
-titles = {'0-4', '5-9', '10-14', '15-19', '20-24', '25-29', ...
-    '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', ...
-    '65-69', '70-74', '75+'};
-tiledlayout(4, 4);
-for ag = 1:16
-    nexttile
-    hold on
-    title(titles(ag))
-    plot(all_dates, vac_table.("total doses"){1}(:, ag), ...
-        all_dates, vac_table.("total doses"){9}(:, ag), '--');
-    hold off
-    if ag == 14
-        l = legend(vac_table.scenario([1 9]));
-        l.Layout.Tile = 'East';
-    end
-end
 
 %% 5. Scenario simulations
 
