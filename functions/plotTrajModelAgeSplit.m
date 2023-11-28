@@ -229,6 +229,7 @@ end
 figLabel = split(plotTitle, '.mat');
 figLabel = append('results/', figLabel{1}, '_ageSplit.png');
 if exist(figLabel, 'file') == 0 || overwriteFig
+    pause(0.1)
     saveas(f, figLabel)
 end
 

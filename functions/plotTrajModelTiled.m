@@ -133,10 +133,10 @@ realData = cat(2, dataComb.NationalBorder*100/7, dataComb.nCasesData, ...
 plotTitle = split(filenameBands, '/');
 plotTitle = plotTitle(2);
 
-subplotTitles = {'Infections', 'Cases', 'Hosp. Admissions', ...
-    'Hosp. Occupancy', 'Deaths'};
+subplotTitles = {'(a)', '(b)', '(c)', ...
+    '(d)', '(e)'};
 subplotYaxis = {'new daily infections per 100,000', 'new daily cases', ...
-    'new daily admissions for COVID', 'hospital occupancy for COVID', ...
+    'new daily hospital admissions', 'hospital occupancy', ...
     'daily deaths'};
 
 smoothDays = [0, 7, 14, 7, 21];
@@ -144,8 +144,7 @@ smoothDays = [0, 7, 14, 7, 21];
 f = figure;
 f.Position = [100 100 1000 800];
 tl = tiledlayout(3, 2);
-title(tl, plotTitle, 'Interpreter', 'none')
-subtitle(tl, 'Aggregated over all ages')
+
 
 lightBLUE = [0.356862745098039,0.811764705882353,0.956862745098039];
 darkBLUE = [0.0196078431372549,0.0745098039215686,0.670588235294118];
@@ -197,10 +196,9 @@ if plotBestFit == 1
 else
     leg = legend('95% confidence band', 'example trajectories', '', '', '', ...
         '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ...
-        'data', 'data (av.)', ...
-        ['fitted to date ','(',char(dateLblResults),')']);
+        'data', 'data (moving avg)');
 end
-leg.Layout.Tile = 'East';
+leg.Layout.Tile = 6;
 
 
 % Save figure if it doesn't already exist or if overwrite flag is on
