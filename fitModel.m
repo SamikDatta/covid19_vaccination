@@ -105,6 +105,10 @@ else % add '_sensitivity' to filename if needed
         string(datetime("today", 'Format', 'ddMMM'))));
 end
 
+
+plotCFR_CHR(epiVarsCompact, dataComb)
+
+
 % Save filtered posterior
 Theta = array2table(pUniFiltered100, 'VariableNames', parsToFit);
 

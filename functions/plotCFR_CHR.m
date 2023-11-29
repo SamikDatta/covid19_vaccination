@@ -1,5 +1,5 @@
+function plotCFR_CHR(epiVarsCompact, dataComb)
 
-% To run after sections 0, 1 and 3 of naiveABCSEIR.m
 
 dateRange = [ datetime(2022, 1, 25), datetime(2023, 6, 30) ];
 
@@ -52,7 +52,7 @@ CFRData = aggDeathsData./aggCasesData;
 age = 0:10:70;
 tickLabels = {'0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70+'};
 
-h = figure(1);
+h = figure;
 h.Position = [  560   342   848   606];
 subplot(2, 2, 1)
 errorbar(age, CHR_med, CHR_med-CHR_low, CHR_hi-CHR_med, 'bo-')
@@ -103,4 +103,5 @@ ylabel('CFR')
 title('(d)')
 xlabel('age (years)')
 
+saveas(h, 'results/CHR_CFR.png');
 
