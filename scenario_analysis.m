@@ -69,6 +69,7 @@ mdl.nInf = table2array(inTab(:, 3:18));
 mdl.nInf1 = table2array(inTab(:, 19:34));
 mdl.nHosp = table2array(inTab(:, 35:50));
 mdl.nDeaths = table2array(inTab(:, 51:66));
+mdl.peakOcc = inTab.peakOcc;
 mdl = struct2table(mdl);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,6 +175,7 @@ for iScenario = 1:nScenarios
     results.nDeathsTot(iScenario, :) = quantile(mdl.nDeathsTot(currFlag), qt);
     results.ARTot(iScenario, :) = quantile(mdl.ARTot(currFlag), qt);
     results.YLL(iScenario, :) = quantile(mdl.YLL(currFlag), qt);
+    results.peakOcc(iScenario, :) = quantile(mdl.peakOcc(currFlag), qt);
     results.dInf(iScenario, :) = quantile(mdl.dInf(currFlag), qt);
     results.dHosp(iScenario, :) = quantile(mdl.dHosp(currFlag), qt);
     results.dDeaths(iScenario, :) = quantile(mdl.dDeaths(currFlag), qt);
@@ -195,27 +197,27 @@ results = struct2table(results);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Enter peak occupancy results manually
-if modelCase == "base"
-    results.peakOcc = [510, 800, 1230;
-                      3800, 5570, 7300;
-                      510, 800, 1230;
-                      3800, 5570, 7300;
-                      1960, 2770, 3520;
-                      680, 970, 1380;
-                      600, 850, 1240;
-                      670, 940, 1270;
-                      490, 770, 1190];
-elseif modelCase == "sensitivity"
-   results.peakOcc = [600, 880, 1310;
-                      4040, 5880, 7430;
-                      600, 880, 1310;
-                      4040, 5880, 7430;
-                      2090, 3000, 3710;
-                      750, 1100, 1510;
-                      630, 910, 1260;
-                      980, 1440, 1960;
-                      560, 820, 1200];
-end
+% if modelCase == "base"
+%     results.peakOcc = [510, 800, 1230;
+%                       3800, 5570, 7300;
+%                       510, 800, 1230;
+%                       3800, 5570, 7300;
+%                       1960, 2770, 3520;
+%                       680, 970, 1380;
+%                       600, 850, 1240;
+%                       670, 940, 1270;
+%                       490, 770, 1190];
+% elseif modelCase == "sensitivity"
+%    results.peakOcc = [600, 880, 1310;
+%                       4040, 5880, 7430;
+%                       600, 880, 1310;
+%                       4040, 5880, 7430;
+%                       2090, 3000, 3710;
+%                       750, 1100, 1510;
+%                       630, 910, 1260;
+%                       980, 1440, 1960;
+%                       560, 820, 1200];
+% end
 
 writeTableLatex(results, fNameOut);
 
