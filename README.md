@@ -62,7 +62,10 @@ To run the COVID-19 ODE model, you will also have to make sure the following dat
 
 For all code, set the Matlab current directory to the Gitlab repo root folder.
 
-The model is run in two stages. The script `fitModel.m` runs the ABC fitting algorithm for parameter estimation and saves the accepted parameter combinations and associated model output in the output file *results_Uni_Filtered100_DDMMMFit_DDMMMRun.mat*. The script `runScenarios.m` reads in the results of `fitModel.m` and runs a number of alternative scenarios for each of the accepted parameter combinations. This produces the following output files, which are described in more detail in the following sections:
+First, the model is run in two stages. The script `fitModel.m` runs the ABC fitting algorithm for parameter estimation and saves the accepted parameter combinations and associated model output in the output file:
+*results_Uni_Filtered100_DDMMMFit_DDMMMRun.mat*. 
+
+Second, the script `runScenarios.m` reads in the results of `fitModel.m` and runs a number of alternative scenarios for each of the accepted parameter combinations. This produces the following output files, which are described in more detail in the following sections:
 * *results_Uni_Filtered100_SCENARIO NAME_DD-MMM-YYYY_fit.mat*
 * *results_Uni_Filtered95_SCENARIO NAME_DD-MMM-YYYY_fit.mat*
 * *results_Uni_FilteredBest_SCENARIO NAME_DD-MMM-YYYY_fit.mat*
