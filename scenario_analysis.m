@@ -26,7 +26,8 @@ elseif modelCase == "sensitivity"
     fNamePop = 'data/popproj2018-21.csv';                   % StatsNZ projected population file name
 end
 
-fNameEpi = 'data/epiSurv_extract_2023-09-04.mat';   % Episurv extract file name
+fNameDeaths = 'data/actual_deaths_by_age_and_sex.csv';   % Actual deaths by age (1 year bands) and sex file name
+fNameMaori = 'data/maori_outcomes_by_age';              % Actual Maori hospitalisations and deaths by age (5 year bands) file name
 fNameLifeTables = 'data/nz-complete-cohort-life-tables-1876-2021.csv';   % Life tables file name  https://www.stats.govt.nz/information-releases/new-zealand-cohort-life-tables-march-2023-update/
 
 
@@ -40,11 +41,13 @@ nRows = height(inTab);
 
 % Import life tables and actual male and female deaths in one year age band, exM and exF are life expectancy at age for male and female respectively
 [age, exM, exF] = importLifeTables(fNameLifeTables);
-[nDeathsActualM, nDeathsActualF] = getActualDeaths(fNameEpi, age);   
+
+deathsTab = readtable(fNameDeaths);
+assert(isequal(age, deathsTab.age));
 
 % Read in Maori deaths in model age bands
 ageModel = (0:5:75)';
-[nMaoriHosp, nMaoriDeaths] = getMaoriHospDeaths(fNameEpi, ageModel);
+maoriOutcomes = readtable(fNameMaori);
 
 % Import population data
 [popData, ethNames] = getPopData(fNamePop);
@@ -112,7 +115,7 @@ exF = exF(:, 2);
 
 
 % Calculate YLL based on actual deaths data and model deaths (for each row in table) 
-mdl.YLL = calcYLL(age, exM, exF,  nDeathsActualM,  nDeathsActualF, ageModel, mdl.nDeaths')';
+mdl.YLL = calcYLL(age, exM, exF,  deathsTab.nDeathsActualM,  deathsTab.nDeathsActualF, ageModel, mdl.nDeaths')';
 
 
 
@@ -154,8 +157,8 @@ for iScenario = 1:nScenarios
         % Method 2 - calculate age-specific ratio of Euro to Maori rates and apply to actual Maori deaths
         rHR = mdl.hospRate(baseFlag, :)./mdl.hospRate(currFlag, :);
         rFR = mdl.deathRate(baseFlag, :)./mdl.deathRate(currFlag, :);
-        mdl.dHospMaori2(currFlag, :) = sum((1-rHR).*nMaoriHosp, 2);
-        mdl.dDeathsMaori2(currFlag, :) = sum((1-rFR).*nMaoriDeaths, 2);
+        mdl.dHospMaori2(currFlag, :) = sum((1-rHR).*maoriOutcomes.nMaoriHosp', 2);
+        mdl.dDeathsMaori2(currFlag, :) = sum((1-rFR).*maoriOutcomes.nMaoriDeaths', 2);
         
     end
 end
