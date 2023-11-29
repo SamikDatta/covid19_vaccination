@@ -1,6 +1,7 @@
 /data
 /results
 /processed_for_modelling
+/latex
 .DS_Store
 *.asv
 *.html
