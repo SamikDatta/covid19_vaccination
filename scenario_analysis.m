@@ -199,29 +199,6 @@ results = struct2table(results);
 % Generate latex table output and plot figure
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Enter peak occupancy results manually
-% if modelCase == "base"
-%     results.peakOcc = [510, 800, 1230;
-%                       3800, 5570, 7300;
-%                       510, 800, 1230;
-%                       3800, 5570, 7300;
-%                       1960, 2770, 3520;
-%                       680, 970, 1380;
-%                       600, 850, 1240;
-%                       670, 940, 1270;
-%                       490, 770, 1190];
-% elseif modelCase == "sensitivity"
-%    results.peakOcc = [600, 880, 1310;
-%                       4040, 5880, 7430;
-%                       600, 880, 1310;
-%                       4040, 5880, 7430;
-%                       2090, 3000, 3710;
-%                       750, 1100, 1510;
-%                       630, 910, 1260;
-%                       980, 1440, 1960;
-%                       560, 820, 1200];
-% end
-
 writeTableLatex(results, fNameOut);
 
 
