@@ -41,7 +41,7 @@ Here is a list and description of the folders that will get cloned in the chosen
 To run the COVID-19 ODE model, you will also have to make sure the following data files are in the indicated folders:
 
 |Filename|Description|
-|--------------------|---|-----|
+|--------------------|-----|
 |*epidata_by_age_and_vax_[DD-MMM-YYYY].mat*| Number of reported Covid-19 cases, Covid-19 hospital admissions and Covid-19 deaths on each date by 10-year age group, vaccination status  (not available publicly). |
 |*vaccine_data_national_[YYYY-MM-DD].mat*| Cumulative total number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band (not available publicly). |
 |*vaccine_data_Maori_[YYYY-MM-DD].mat*| Cumulative number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band for people whose prioritised ethnicity was Māori (not available publicly). |
