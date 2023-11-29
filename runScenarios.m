@@ -8,6 +8,9 @@ clear
 close all
 addpath('functions');
 
+% For reproducibility
+rng(34604);
+
 dateLbl = "13-Aug-2023";                    % Datestamp of line data used for fitting and plotting
 fitLbl = "28Nov";                           % Datestamp on the file containing the results of the model fitting orutine (date the model fitting routine was run)
 

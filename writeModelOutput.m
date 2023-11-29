@@ -15,7 +15,7 @@ last_date = '30-June-2023'; % date to save to
 
 % Get info from first file
 
-filenameAll = sprintf('results_Uni_Filtered100_scenario%d_13-Aug-2023_fit.mat', scenarios(1));
+filenameAll = sprintf('results/results_Uni_Filtered100_scenario%d_13-Aug-2023_fit.mat', scenarios(1));
 
 % Load first file
 load(filenameAll, 't'); % load time vector
@@ -27,7 +27,7 @@ num_simulations = 150; % manually setting number of runs per scenario
 
 % Totals
 
-saveStr = 'results/results_for_vaccination_scenarios_paper/numbers_for_Mike.csv';
+saveStr = 'results/model_output.csv';
 
 % Delete if present
 if exist(saveStr, 'file') == 2
@@ -52,7 +52,7 @@ row_number = 0; % starting value for row
 for j = 1:numel(scenarios)
 
     % filenames
-    filenameAll = sprintf('results_Uni_Filtered100_scenario%d_13-Aug-2023_fit_sensitivity.mat', scenarios(j));
+    filenameAll = sprintf('results/results_Uni_Filtered100_scenario%d_13-Aug-2023_fit.mat', scenarios(j));
 
     % Get variables -- bands
     load(filenameAll, 'epiVarsCompact');
