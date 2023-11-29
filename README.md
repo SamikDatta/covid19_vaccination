@@ -89,9 +89,7 @@ The following outputs will be produced and saved in the `results` folder:
 ## Running alternative scenarios
 `runScenarios.m` reads in the fitted posterior distribution for parameters saved by a previous run of `fitModel.m` (see above). Note the variable `fitLbl` in `runScenarios.m` specifies the datestamp on the file containing the output of the model fitting routine (this is the date that `fitModel.m` was run).  **Caution: if any of the underlying model parameters are changed, it is necessary to re-run the fitting procedure.**
 
-In this section, it is also possible to display a table of posterior values corresponding to "best fitting" posterior, together with the interquartile range associated to each fitted parameter. To display this table, change the `showPosteriorStats` parameter to `1`.
-
-Using the scenario parameter values defined in `getBasePar.m`, this is where scenarios are run from the pre-loaded posterior parameter sets. The different scenarios for vaccinatoin rates are defined in the last section of `getBasePar.m`.
+Scenarios are run from the pre-loaded posterior parameter sets and using the different scenarios for vaccination rates, which are defined in the last section of `getBasePar.m`.
 Once the scenario parameter values have been defined in `getBasePar.m`, the script will run each scenario using all the accepted samples (1% best) from the posterior distribution of parameter values that have been produced earlier.
 The following output file will then be saved in the `results` folder:
 * *results_Uni_Filtered100_SCENARIO NAME_DD-MMM-YYYY_fit.mat* : Matlab structure containing the results of the scenario simulations for each of the posterior parameter sets, labeled by scenario name and datestamp of the data used for the model fitting. Note that this is an intermediary result file, which will be processed in the next section.
