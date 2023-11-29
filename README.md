@@ -57,7 +57,7 @@ To run the COVID-19 ODE model, you will also have to make sure the following dat
 |*popproj2018-21.csv*| Population size estmiates by prioritised ethnicity in 5-year age bands (StatsNZ projected population for 2021 - see [here](https://www.tepou.co.nz/resources/dhb-population-profiles-2021-2031-pdf) ). |
 |*actual_deaths_by_age_and_sex.csv*| Number of recorded Covid-19 deaths by sex and 1-year age band for 1 Jan 2022 - 30 Jun 2023 (not available publicly). |
 |*maori_outcomes_by_age.csv*| Number of recorded Māori Covid-19 hospitalisations and deaths by 5-year age band for 1 Jan 2022 - 30 Jun 2023  (not available publicly). |
-|*nz-complete_cohort-life-tables-1876-2021.csv| Cohort life tables used for calculating YLL [published by StatsNZ](https://www.stats.govt.nz/information-releases/new-zealand-cohort-life-tables-march-2023-update/). |
+|*nz-complete_cohort-life-tables-1876-2021.csv*| Cohort life tables used for calculating YLL [published by StatsNZ](https://www.stats.govt.nz/information-releases/new-zealand-cohort-life-tables-march-2023-update/). |
 
 
 # 3. How to run the ODE model
