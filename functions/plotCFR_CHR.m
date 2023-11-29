@@ -1,4 +1,4 @@
-function plotCFR_CHR(epiVarsCompact, dataComb)
+function plotCFR_CHR(t, epiVarsCompact, dataComb)
 
 
 dateRange = [ datetime(2022, 1, 25), datetime(2023, 6, 30) ];

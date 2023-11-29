@@ -31,7 +31,7 @@ end
 % Plot cumulative doses for each scenario
 
 legLbls = ["Baseline", "10% drop", "20-25 yo rates", "Euro rates", "Māori rates"];
-f = figure(1);  
+f = figure;  
 f.Position = [100 100 1200 800];
 titles = {'0-5', '5-10', '10-15', '15-20', '20-25', '25-30', ...
     '30-35', '35-40', '40-45', '45-50', '50-55', '55-60', '60-65', ...
@@ -59,7 +59,7 @@ for ag = 1:16
 end
 
 drawnow
-
+saveas(f, 'results/vaccine_counterfactuals.png');
 
 % Print some summary ethnicity stats for paper
 ti = find(t == datenum('01FEB2022'));

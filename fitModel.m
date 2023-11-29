@@ -105,8 +105,7 @@ else % add '_sensitivity' to filename if needed
         string(datetime("today", 'Format', 'ddMMM'))));
 end
 
-
-plotCFR_CHR(epiVarsCompact, dataComb)
+plotCFR_CHR(t, epiVarsCompact, dataComb)
 
 
 % Save filtered posterior
