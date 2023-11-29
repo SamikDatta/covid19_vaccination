@@ -35,7 +35,7 @@ Here is a list and description of the folders that will get cloned in the chosen
 * **results**: this folder will only contain a README file at installation, but will be filled with simulation results and graph after running the main script
 * **postProcessing**: this folder contains the functions needed to process the outputs from running the ODE model, as described further in the ReadMe in that subfolder
 * **doc**: code peer review documentation on an earlier version of this repo.
-* * **latex**: latex source code generated for the Tables in the article.
+* **latex**: latex source code generated for the Tables in the article.
 
 
 To run the COVID-19 ODE model, you will also have to make sure the following data files are in the indicated folders:
