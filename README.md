@@ -101,7 +101,7 @@ The following output files will be produced and saved in the `results` folder:
 * *results_Uni_Filtered95_SCENARIO NAME_DD-MMM-YYYY_fit.mat* : Matlab structure containing the results of the scenario simulations for the 95% best fitting parameter sets out of the posterior parameter sets.
 * *results_Uni_FilteredBest_SCENARIO NAME_DD-MMM-YYYY_fit.mat* : Matlab structure containing the results of the scenario simulations for the single best fitting parameter set.
 
-Finally, plots are cretaed for the aggregated and age-split model results in each scenario.
+Finally, plots are created for the aggregated and age-split model results in each scenario.
 This will generate two figures in the `results` folder in .png format:
 * *results_Uni_Filtered95_SCENARIO NAME_DD-MMM-YYYY_fit.png* : a tiled plot of aggregated model outputs and data for daily infections, daily reported cases, daily hospital admissions, hospital occupancy, and daily deaths
 * *results_Uni_Filtered95_SCENARIO NAME_DD-MMM-YYYY_fit_ageSplit.png* : a tiled plot of age-split model outputs and data for daily reported cases, daily hospital admissions, daily deaths, ratio of hospital admissions / cases, case ascertainment rate, and ratio of cumulative infections per total population
