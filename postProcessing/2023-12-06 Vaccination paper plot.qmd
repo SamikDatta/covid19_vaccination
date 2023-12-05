@@ -1,0 +1,323 @@
+---
+title: "Producing Figure 4 for vaccination paper"
+author: "Samik Datta, Giorgia Vattiato and Michael J. Plank"
+editor: visual
+date: "2023-12-06"
+format: 
+  html:
+    embed-resources: true
+    page-layout: full
+    code-fold: true
+    toc: true
+    toc-location: left
+    toc-title: Table of contents
+    number-sections: true
+    fig-width: 12
+    fig-height: 10
+knitr: 
+  opts_chunk: 
+    collapse: true
+    echo: false
+    warning: false
+    message: false
+---
+
+### For further information, please contact
+
+-   Samik Datta [(samik.datta\@niwa.co.nz)](mailto:samik.datta@niwa.co.nz)
+-   Giorgia Vattiato [(vattiatogi@landcareresearch.co.nz)](mailto:vattiatogi@landcareresearch.co.nz)
+-   Michael Plank [(michael.plank\@canterbury.ac.nz)](mailto:michael.plank@canterbury.ac.nz)
+
+## Acknowledgements
+
+This work represents the combined efforts of a large number of individuals and organisations, past and present, working within Covid-19 Modelling Aotearoa. Further information can be found [here](https://www.covid19modelling.ac.nz/about/).
+
+## ODE model summary
+
+The ODE model is based on numerous parameter assumptions: some of these values are fixed, others are fitted using a naive ABC (approximate Bayesian computation) method (see Lustig et al., 2023 for details).
+
+Using this method, the model picks random combinations of parameter values from their 'prior' distributions (results presented here result from 15,000 independent draws from each prior distribution), then outputs a posterior distribution of accepted values. The accepted values are those resulting in the 1% best fitting trajectories (i.e. those that give the smallest value for a distance function that captures the difference between the infection/case/hospitalisation/etc. values of a simulated trajectory and those from observed data), and are then used to plot a 'best fit' line and a 95% confidence interval.
+
+It is worth noting that multiple different combinations of parameter choices can result in simulations that give an equally good fit to empirical data, including combinations of parameters that may conflict with other parameter combinations. It is therefore important to consider modelling results as an ensemble of plausible trajectories, subject to the constraints and assumptions of the model.
+
+We note that, in the latest model fit, we have adjusted our infection hospitalisation rates by age to match more closely with the observed hospitalisations.
+
+### Data used in model fit
+
+We fit our model to the following data:
+
+-   daily infections in a routinely tested cohorted of border workers (up to July 2022),
+-   aggregate and age-split daily reported cases, aggregate daily hospital admissions and aggregate daily deaths (up to 13th August 2023), and
+-   vaccination data (up to 6th June 2023).
+
+### Data plotted
+
+The data points shown on plots include:
+
+-   daily infections in a routinely tested cohorted of border workers up to July 2022,
+-   aggregate and age-split daily reported cases, aggregate daily hospital admissions and aggregate daily deaths (up to 13th August 2023), and
+-   aggregated hospital occupancy (up to 16th August 2023).
+
+All data are plotted using a 7-day rolling average for smoothing.
+
+### Scenarios simulated
+
+The vaccination scenarios simulated here include:
+
+1.  Baseline: vaccination rates as occurred in New Zealand. 2: No vaccination: No vaccination carried out. 3: No vaccination (under 60s): Removing vaccination for those aged under 60.
+2.  90% vaccination: reducing vaccination rates to 90% of what they were in reality.
+3.  Reduced coverage in older ages:
+4.  Maori uptake rates: assuming vaccination occurred at the per-capita rate that it did for the Maori population (split into 5-year age groups).
+5.  European / Other vaccination: assuming vaccination occurred at the per-capita rate that it did for the European / Other population (split into 5-year age groups).
+
+All runs are performed from 5th March 2023 until 30th June 2023.ases, aggregate daily hospital admissions and aggregate daily deaths (up to 16th April 2023), and
+-   vaccination data (up to 24th April 2023).
+
+```{r}
+
+#| label: read_in_data
+
+
+# libraries needed
+library(tidyverse)
+library(readxl)
+library(grid)
+options(scipen = 999) # avoid scientific notation
+
+# Read in data ####
+filename_data = '../results/results_for_vaccination_scenarios_paper/compare_scenarios_20231016.xlsx'
+filename_age = '../results/results_for_vaccination_scenarios_paper/compare_scenarios_20231016_age_split.xlsx' # filename pointers
+
+# Default values
+text_size_aggregate = 16
+text_size_age_split = 16
+col_palette = 'Set1'
+data_col = 'black'
+plot_min_date = '2022-01-01'
+plot_max_date = '2023-06-30'
+
+scen_order = c("Baseline", "No vaccine", "No AVs", "No vaccine or AVs", "No vaccine in U60s", 
+               "10% drop in rates", "20-25-year-old rates", "Māori rates", "Euro/other rates")
+
+
+# Load plotting function
+
+plot_compare_multiple = function(metric = c('infections', 'cases', 'admissions', 'deaths'), plot_pick = 'diff', min_date = NULL, max_date = NULL, actual_dates = T) {
+  
+  if (is.null(min_date)) {
+    min_date = min(covid_tibble$date)
+  } else {
+    min_date = as.Date(min_date)
+  }
+  
+  if (is.null(max_date)) {
+    max_date = max(covid_tibble$date)
+  } else {
+    max_date = as.Date(max_date)
+  }
+  
+  if (!all(metric %in% c('infections', 'cases', 'admissions', 'deaths'))) {
+    stop('Metric needs to include either infections, cases, admissions or deaths.')
+  }
+  
+  if (!plot_pick %in% c('median', 'diff', 'diffPerc')) {
+    stop('plot_pick needs to be either median, diff or diffPerc.')
+  }
+  
+  graph_titles = tibble(output = paste0(metric, '_', plot_pick),
+                        titles = metric) %>%
+    mutate(titles = factor(titles, levels = titles))
+  
+  test = covid_tibble %>% left_join(graph_titles, by = 'output') %>%
+    filter(date >= min_date, date <= max_date, age == 'total', 
+           scenario != 'Baseline',
+           titles %in% metric) %>%
+    droplevels()
+  
+  if (plot_pick == 'median') {
+    y_title = 'Numbers'
+    overall_title = 'Total numbers over time'
+  } else if (plot_pick == 'diff') {
+    y_title = 'Difference in numbers'
+    overall_title = 'Difference in numbers from baseline'
+  } else if (plot_pick == 'diffPerc') {
+    y_title = '% difference'
+    overall_title = '% Difference in numbers from baseline'
+  }
+  
+  if (actual_dates == T) {
+    
+    ggplot(test, aes(x = date, colour = scenario, fill = scenario)) +
+      geom_ribbon(aes(ymin = lower, ymax = upper), linetype = 0, alpha = 0.2) +
+      geom_line(aes(y = value), linewidth = 1) +
+      facet_wrap(~titles, scales = 'free_y', nrow = 2) +
+      labs(x = 'Date', y = y_title, title = overall_title, colour = 'Scenario', fill = 'Scenario') +
+      scale_fill_brewer(palette = 'Set1') +
+      scale_color_brewer(palette = 'Set1') +
+      theme_bw(base_size = 20) +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      scale_x_date(breaks = '3 months')
+    
+  } else {
+    
+    ggplot(test, aes(x = date_zero, colour = scenario, fill = scenario)) +
+      geom_ribbon(aes(ymin = lower, ymax = upper), linetype = 0, alpha = 0.2) +
+      geom_line(aes(y = value), linewidth = 1) +
+      facet_wrap(~titles, scales = 'free_y', nrow = 2) +
+      labs(x = 'Days since policy change', y = y_title, title = overall_title, colour = 'Scenario', fill = 'Scenario') +
+      scale_fill_brewer(palette = 'Set1') +
+      scale_color_brewer(palette = 'Set1') +
+      theme_bw(base_size = 20) +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      scale_x_date(breaks = '3 months')
+    
+  }
+  
+}
+
+
+# Read in data ####
+all_data = read_excel(filename_data) # a bit weird due to cell arrays becoming columns
+sheets = excel_sheets(filename_age) # get sheet names from age spreadsheet
+age_data <- lapply(sheets, function(X) read_excel(filename_age, sheet = X)) # read in age split as list of tibbles
+for (j in 1:length(age_data)) {
+  names(age_data[[j]]) <- str_replace_all(names(age_data[[j]]), " ", "0")
+}
+
+# Specify dates for all columns - use date string from age split data
+time_range = as.Date(age_data[[1]]$dates)
+
+## Create table for aggregate variables ####
+
+# Master table with no rows
+
+total_tibble = tibble(date = Sys.Date(), output = character(), scenario = character(), age = character(), 
+                      value = numeric(), lower = numeric(), upper = numeric())
+
+# Setting up scenarios
+all_scenarios = unique(as.character(all_data$scenario))
+
+# Setting up outputs
+all_outputs = c('infections', 'cases', 'admissions', 'deaths', 'occupancy')
+
+# Setting up variables within each output
+all_variables = c('median', 'diff', 'diffPerc')
+
+# Do rest in loop
+
+# Go through output - infections, cases, admissions, deaths
+
+for (output_select in all_outputs) {
+  
+  # Go through variables - numbers, median, lower, upper
+  
+  for (variable_select in all_variables) {
+    
+    # go through scenarios
+    
+    for (scenario_pick in all_scenarios) {
+      
+      test = all_data %>% filter(scenario == scenario_pick) %>% 
+        select(contains(paste0(output_select, variable_select, '_'))) # pull out columns
+      dummy = tibble(date = time_range, output = paste0(output_select, '_', variable_select),
+                     scenario = scenario_pick, age = 'total', value = as.numeric(test), lower = NA, upper = NA)
+      
+      if (variable_select == 'median') { # for best fit and median, no variable_select in string
+        dummy = dummy %>% mutate(lower = as.numeric(all_data %>% filter(scenario == scenario_pick) %>% 
+                                                      select(contains(paste0(output_select, 'lower', '_')))),
+                                 upper = as.numeric(all_data %>% filter(scenario == scenario_pick) %>% 
+                                                      select(contains(paste0(output_select, 'upper', '_')))))
+      } else if (str_detect(variable_select, 'diff')) { # for diff and diffPerc, use variable select in name
+        dummy = dummy %>% mutate(lower = as.numeric(all_data %>% filter(scenario == scenario_pick) %>% 
+                                                      select(contains(paste0(output_select, variable_select, 'lower', '_')))),
+                                 upper = as.numeric(all_data %>% filter(scenario == scenario_pick) %>% 
+                                                      select(contains(paste0(output_select, variable_select, 'upper', '_')))))
+      }
+      
+      total_tibble = total_tibble %>% add_row(dummy) # whack onto master tibble
+      
+    }
+  }
+}
+
+## Now do for age split ####
+
+# Master table with no rows
+
+age_tibble = tibble(date = Sys.Date(), output = character(), scenario = character(), age = character(), 
+                    value = numeric(), lower = numeric(), upper = numeric())
+
+
+# Age groups
+age_groups = c('0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70+')
+
+# Do rest in loop
+
+sheet_number = 0 # start sheet counter
+
+# Go through scenarios
+
+for (scenario_pick in 1:length(all_scenarios)) {
+  
+  sheet_number = sheet_number + 1 # increase sheet counter
+  
+  # Go through output - infections, cases, admissions, deaths
+  
+  for (output_select in all_outputs) {
+    
+    # Go through variables - numbers, median, lower, upper
+    
+    for (variable_select in all_variables) {
+      
+      # Go through age groups, whack into 10-year groups (join 1:2m, 3:4, etc.)
+      
+      for (ages in 1:length(age_groups)) {
+        
+        dummy = tibble(date = time_range, output = paste0(output_select, '_', variable_select),
+                       scenario = all_scenarios[scenario_pick], 
+                       age = age_groups[ages], 
+                       value = age_data[[sheet_number]] %>% 
+                         pull(contains(paste0(output_select, variable_select, '_', ages))),
+                       lower = NA, upper = NA) # pull out columns
+        
+        if (variable_select == 'median') { # for best fit and median, no variable_select in string
+          dummy = dummy %>% mutate(lower = age_data[[scenario_pick]] %>% 
+                                     pull(contains(paste0(output_select, 'lower_', ages))), # pull out columns
+                                   upper = age_data[[scenario_pick]] %>% 
+                                     pull(contains(paste0(output_select, 'upper_', ages))))
+        } else if (str_detect(variable_select, 'diff')) { # for diff and diffPerc, use variable select in name
+          dummy = dummy %>% mutate(lower = age_data[[scenario_pick]] %>% 
+                                     pull(contains(paste0(output_select, variable_select, 'lower_', ages))), # pull out columns
+                                   upper = age_data[[scenario_pick]] %>% 
+                                     pull(contains(paste0(output_select, variable_select, 'upper_', ages))))
+        }
+        
+        age_tibble = age_tibble %>% add_row(dummy) # whack onto master tibble
+        
+      }
+    }
+  }
+}
+
+
+## Now join tibbles and do admin for plots
+
+covid_tibble = bind_rows(total_tibble, age_tibble) %>%
+  replace_na(list(value = 0, lower = 0, upper = 0)) %>%
+  left_join(tibble(scenario = all_scenarios, scen_order = factor(scen_order, levels = scen_order[c(1, 3, 2, 4, 6, 5, 7, 9, 8)])), by = 'scenario') %>%
+  select(-scenario) %>%
+  rename(scenario = scen_order) %>% # replace scenario number by name
+  mutate(date_zero = as.numeric(date - min(date))) # days since policy change
+
+```
+
+```{r}
+
+#| label: fig-admissions-and-deaths
+
+plot_compare_multiple(metric = c('infections', 'admissions', 'deaths'), min_date = plot_min_date, max_date = plot_max_date) + 
+  theme(legend.position = c(0.9, -0.1), legend.justification = c(1, 0))
+
+
+
+```

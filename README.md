@@ -113,7 +113,7 @@ If the `popSizeFname` field in `getDataFileNames.m` is changed from "popsize_nat
 
 # 4. Post processing
 
-The top-level script `writeModelOutput.m` reads in the results of the scenario models (output by `runScenarios.m`) and generates a single .csv file (`results/model_output.csv') containing the the number of infections, number of first infections, number of admissions and number of deaths in each of the 16 age groups, for each of the 150 accepted parameter combinations, and for each of the 9 model scenarios. All values are aggregated over the relevant time period. 
+The top-level script `writeModelOutput.m` reads in the results of the scenario models (output by `runScenarios.m`) and generates a single .csv file (`results/model_output.csv`) containing the the number of infections, number of first infections, number of admissions and number of deaths in each of the 16 age groups, for each of the 150 accepted parameter combinations, and for each of the 9 model scenarios. All values are aggregated over the relevant time period. 
 
 The script `scenario_analysis.m` reads in this .csv file and calculates the median and 95% CrI values reported in Tables 1 and S6 of the article (latex source code for the Tables is generated and saved in `latex/results_table.tex`). This includes the calculation of YLL from cohort life tables, and the calculation of differences (Delta) between scenarios for the same parameter combination (see article Methods for details).   
 

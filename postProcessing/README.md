@@ -6,7 +6,6 @@ It contains the following functions:
 - `writeMOHspreadsheetsTrajAndBands.m`
 - `writeRMarkdownSpreadsheets.m`
 - `writeRMarkdownSpreadsheetsCompare.m`
-- `writeCSVsForMike.m`
 
 ## How to process results files into Excel spreadsheets (for TAS dashboard)
 1. Open `writeMOHspreadsheetsTrajAndBands.m`
@@ -55,9 +54,3 @@ The script will produce 13 Excel spreadsheets in each subfolder for one scenario
 The script will produce two Excel spreadsheets in the `results` folder:
 - filename `XXX.xlsx` (whatever you have made the variable `saveStr`).
 - filename `YYY.xlsx` (whatever you have made the variable `saveStr_age`).
-
-## How to process results files into CSV for comparing vaccination scenarios
-1. Open `writeCSVsForMike.m`
-2. Change the variable `filenameAll` to match the format that the ODE model outputs are in, so that combined with the scenario names the correct file is accessed within each iteration of theloop.
-3. Change the variable `saveStr` to the name of the CSV file you want to produce for the differences between scenarios.
-5. Run `writeCSVsForMike.m`
