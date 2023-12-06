@@ -1,6 +1,6 @@
 %% Analysis to compare scenarios
 
-% Base folder to start in - make this the Gitlab repo root folder 'ode-model'
+% Base folder to start in - make this the Gitlab repo root folder 'covid19_vaccination'
 
 clearvars % remove all variables
 close all % close all figures
