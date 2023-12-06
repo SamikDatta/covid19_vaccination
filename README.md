@@ -117,6 +117,16 @@ The top-level script `writeModelOutput.m` reads in the results of the scenario m
 
 The script `scenario_analysis.m` reads in this .csv file and calculates the median and 95% CrI values reported in Tables 1 and S6 of the article (latex source code for the Tables is generated and saved in `latex/results_table.tex`). This includes the calculation of YLL from cohort life tables, and the calculation of differences (Delta) between scenarios for the same parameter combination (see article Methods for details).   
 
+The script `writeRMarkdownSpreadsheetsCompare.m` produces Figure 4 showing differences in cumulative infections, hospitalisations and deaths between scenarios. To do this:
+1. Open `writeRMarkdownSpreadsheetsCompare.m`.
+2. Change the variable `scenarios` to the names of the scenarios you have run (i.e. the name which distinguishes the outputs from the ODE model).
+3. Change the variables `saveStr` and `saveStr_age` to the names of the Excel files you want to produce for the total and age-split numbers respectively.
+4. Change the variable `filenameBands` to match the format that the ODE model outputs are in, so that combined with the scenario names the correct file is accessed within each iteration of the loop.
+5. Run `writeRMarkdownSpreadsheetsCompare.m`. This will produce two Excel spreadsheets in the `results` folder called `XXX.xlsx` (whatever you made the variable `saveStr`) and `YYY.xlsx` (whatever you made the variable `saveStr_age`).
+6. Open the file `Figure 4 markdown.qmd`.
+7. Change the variables `filename_data` and `filename_age` to match the filenames you chose in the script `writeRMarkdownSpreadsheetsCompare.m`. This should then run to produce a HTML file containing Figure 4.
+
+
 
 # 5. Other 
 
