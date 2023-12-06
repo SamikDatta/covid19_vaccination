@@ -10,7 +10,7 @@ The code includes a simple approximate Bayesian computation (ABC) method to fit 
 
 An earlier version of the code on this repo (see [here](https://gitlab.com/tpmcovid/ode-model) was peer reviewed by Ning Hua at Precision Driven Health. Documentation of the code following this review can be found in the `doc` folder on this repo.  
 
-Only code and other small files are kept in this repo. The data and outputs produced can be kept locally, and are not automatically pushed to the repo. The raw data cannot be shared publicly due to confidentiality issues. 
+Only code and other small files are kept in this repo. The data and outputs produced can be kept locally, and are not automatically pushed to the repo. The raw data cannot be shared publicly due to confidentiality issues. Results in the article were produce using the version of this repo tagged 'v1.0'.
 
 
 # 2. Prerequisites and installation
