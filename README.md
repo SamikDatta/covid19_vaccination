@@ -42,12 +42,12 @@ To run the COVID-19 ODE model, you will also have to make sure the following dat
 
 |Filename|Description|
 |--------------------|-----|
-|*epidata_by_age_and_vax_[DD-MMM-YYYY].mat*| Number of reported Covid-19 cases, Covid-19 hospital admissions and Covid-19 deaths on each date by 10-year age group, vaccination status  (not available publicly). |
-|*vaccine_data_national_[YYYY-MM-DD].mat*| Cumulative total number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band (not available publicly). |
-|*vaccine_data_Maori_[YYYY-MM-DD].mat*| Cumulative number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band for people whose prioritised ethnicity was Māori (not available publicly). |
-|*vaccine_data_EuropeanOther_[YYYY-MM-DD].mat*| Cumulative number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band for people whose prioritised ethnicity was European or other (not available publicly). |
+|*epidata_by_age_and_vax_[DD-MMM-YYYY].mat*| Number of reported Covid-19 cases, Covid-19 hospital admissions and Covid-19 deaths on each date by 10-year age group, vaccination status. |
+|*vaccine_data_national_[YYYY-MM-DD].csv*| Cumulative total number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band. |
+|*vaccine_data_Maori_[YYYY-MM-DD].csv*| Cumulative number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band for people whose prioritised ethnicity was Māori. |
+|*vaccine_data_EuropeanOther_[YYYY-MM-DD].csv*| Cumulative number of 1st, 2nd, 3rd and 4th or subsequent vaccine doses given by data and 5-year age band for people whose prioritised ethnicity was European or other. |
 |*reshaped_b2_projections_final_[YYYY-MM-DD].csv*| This was constructed by combining historical vaccine uptake data with future uptake projections provided by the Ministry of Health. As these projections have now been superceded by more recent uptake data, this file is now obsolete and not needed. |
-|*therapeutics_by_age_[DD-MMM-YYYY].mat*| MOH data for the proportion of cases with an antiviral prescription in each group over time (not available publicly). |
+|*therapeutics_by_age_[DD-MMM-YYYY].mat*| MOH data for the proportion of cases with an antiviral prescription in each group over time. |
 |*covid-cases-in-hospital-counts-location-16-Aug-2023.xlsx*| Data from file *covid-cases-in-hospital-counts-location.xlsx* file in the *nz-covid-data/cases/* folder of the [MOH Github repo](https://github.com/minhealthnz/nz-covid-data/tree/main/cases).|
 |*border_incidence.xlsx*|*data*| Data collected by M. Plank and stored in [this GitHub page](https://github.com/michaelplanknz/modelling-ba5-in-nz). |
 |*nzcontmatrix.xlsx*| This is taken from the paper 'Projecting social contact matrices in 152 countries using contact surveys and demographic data' by Prem et al. (specifically the overall age-and-location-specific contact matrix for New Zealand), and is available [here](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005697). |
@@ -55,8 +55,8 @@ To run the COVID-19 ODE model, you will also have to make sure the following dat
 |*popproj_national2018-21.xlsx*| National population size estimates in 5-year age bands (StatsNZ projected population for 2021 - see [here](https://www.tepou.co.nz/resources/dhb-population-profiles-2021-2031-pdf) ). |
 |*HSU_by_age_eth.csv*| Population size estmiates by prioritised ethnicity in 5-year age bands (HSU population 2022) |
 |*popproj2018-21.csv*| Population size estmiates by prioritised ethnicity in 5-year age bands (StatsNZ projected population for 2021 - see [here](https://www.tepou.co.nz/resources/dhb-population-profiles-2021-2031-pdf) ). |
-|*actual_deaths_by_age_and_sex.csv*| Number of recorded Covid-19 deaths by sex and 1-year age band for 1 Jan 2022 - 30 Jun 2023 (not available publicly). |
-|*maori_outcomes_by_age.csv*| Number of recorded Māori Covid-19 hospitalisations and deaths by 5-year age band for 1 Jan 2022 - 30 Jun 2023  (not available publicly). |
+|*actual_deaths_by_age_and_sex.csv*| Number of recorded Covid-19 deaths by sex and 1-year age band for 1 Jan 2022 - 30 Jun 2023. |
+|*maori_outcomes_by_age.csv*| Number of recorded Māori Covid-19 hospitalisations and deaths by 5-year age band for 1 Jan 2022 - 30 Jun 2023. |
 |*nz-complete_cohort-life-tables-1876-2021.csv*| Cohort life tables used for calculating YLL [published by StatsNZ](https://www.stats.govt.nz/information-releases/new-zealand-cohort-life-tables-march-2023-update/). |
 
 
