@@ -25,7 +25,7 @@ knitr:
 ### For further information, please contact
 
 -   Samik Datta [(samik.datta\@niwa.co.nz)](mailto:samik.datta@niwa.co.nz)
--   Giorgia Vattiato [(vattiatogi@landcareresearch.co.nz)](mailto:vattiatogi@landcareresearch.co.nz)
+-   Giorgia Vattiato [(vattiatogi\@landcareresearch.co.nz)](mailto:vattiatogi@landcareresearch.co.nz)
 -   Michael Plank [(michael.plank\@canterbury.ac.nz)](mailto:michael.plank@canterbury.ac.nz)
 
 ## Acknowledgements
@@ -70,8 +70,7 @@ The vaccination scenarios simulated here include:
 4.  Maori uptake rates: assuming vaccination occurred at the per-capita rate that it did for the Maori population (split into 5-year age groups).
 5.  European / Other vaccination: assuming vaccination occurred at the per-capita rate that it did for the European / Other population (split into 5-year age groups).
 
-All runs are performed from 5th March 2023 until 30th June 2023.ases, aggregate daily hospital admissions and aggregate daily deaths (up to 16th April 2023), and
--   vaccination data (up to 24th April 2023).
+All runs are performed from 5th March 2023 until 30th June 2023.ases, aggregate daily hospital admissions and aggregate daily deaths (up to 16th April 2023), and - vaccination data (up to 24th April 2023).
 
 ```{r}
 
@@ -130,17 +129,19 @@ plot_compare_multiple = function(metric = c('infections', 'cases', 'admissions',
   
   test = covid_tibble %>% left_join(graph_titles, by = 'output') %>%
     filter(date >= min_date, date <= max_date, age == 'total', 
-           scenario != 'Baseline',
-           titles %in% metric) %>%
-    droplevels()
+           titles %in% metric)
   
   if (plot_pick == 'median') {
     y_title = 'Numbers'
     overall_title = 'Total numbers over time'
   } else if (plot_pick == 'diff') {
+    test = test %>% filter(scenario != 'Baseline') %>%
+      droplevels()
     y_title = 'Difference in numbers'
     overall_title = 'Difference in numbers from baseline'
   } else if (plot_pick == 'diffPerc') {
+    test = test %>% filter(scenario != 'Baseline') %>%
+      droplevels()
     y_title = '% difference'
     overall_title = '% Difference in numbers from baseline'
   }
