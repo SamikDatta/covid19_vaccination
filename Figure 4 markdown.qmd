@@ -2,7 +2,7 @@
 title: "Producing Figure 4 for vaccination paper"
 author: "Samik Datta, Giorgia Vattiato and Michael J. Plank"
 editor: visual
-date: "2023-12-06"
+date: "2024-01-26"
 format: 
   html:
     embed-resources: true
@@ -22,7 +22,7 @@ knitr:
     message: false
 ---
 
-### For further information, please contact
+## For further information, please contact
 
 -   Samik Datta [(samik.datta\@niwa.co.nz)](mailto:samik.datta@niwa.co.nz)
 -   Giorgia Vattiato [(vattiatogi\@landcareresearch.co.nz)](mailto:vattiatogi@landcareresearch.co.nz)
@@ -84,8 +84,8 @@ library(grid)
 options(scipen = 999) # avoid scientific notation
 
 # Read in data ####
-filename_data = '../results/results_for_vaccination_scenarios_paper/compare_scenarios_20231016.xlsx'
-filename_age = '../results/results_for_vaccination_scenarios_paper/compare_scenarios_20231016_age_split.xlsx' # filename pointers
+filename_data = 'results/compare_scenarios_20231016.xlsx'
+filename_age = 'results/compare_scenarios_20231016_age_split.xlsx' # filename pointers
 
 # Default values
 text_size_aggregate = 16
@@ -101,16 +101,16 @@ scen_order = c("Baseline", "No vaccine", "No AVs", "No vaccine or AVs", "No vacc
 
 # Load plotting function
 
-plot_compare_multiple = function(metric = c('infections', 'cases', 'admissions', 'deaths'), plot_pick = 'diff', min_date = NULL, max_date = NULL, actual_dates = T) {
+plot_compare_multiple = function(data = covid_tibble, metric = c('infections', 'cases', 'admissions', 'deaths'), plot_pick = 'diff', min_date = NULL, max_date = NULL, actual_dates = T) {
   
   if (is.null(min_date)) {
-    min_date = min(covid_tibble$date)
+    min_date = min(data$date)
   } else {
     min_date = as.Date(min_date)
   }
   
   if (is.null(max_date)) {
-    max_date = max(covid_tibble$date)
+    max_date = max(data$date)
   } else {
     max_date = as.Date(max_date)
   }
@@ -127,7 +127,7 @@ plot_compare_multiple = function(metric = c('infections', 'cases', 'admissions',
                         titles = metric) %>%
     mutate(titles = factor(titles, levels = titles))
   
-  test = covid_tibble %>% left_join(graph_titles, by = 'output') %>%
+  test = data %>% left_join(graph_titles, by = 'output') %>%
     filter(date >= min_date, date <= max_date, age == 'total', 
            titles %in% metric)
   
@@ -153,8 +153,8 @@ plot_compare_multiple = function(metric = c('infections', 'cases', 'admissions',
       geom_line(aes(y = value), linewidth = 1) +
       facet_wrap(~titles, scales = 'free_y', nrow = 2) +
       labs(x = 'Date', y = y_title, title = overall_title, colour = 'Scenario', fill = 'Scenario') +
-      scale_fill_brewer(palette = 'Set1') +
-      scale_color_brewer(palette = 'Set1') +
+      scale_fill_manual(values = run_colours) +
+      scale_colour_manual(values = run_colours) +
       theme_bw(base_size = 20) +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
       scale_x_date(breaks = '3 months')
@@ -166,8 +166,8 @@ plot_compare_multiple = function(metric = c('infections', 'cases', 'admissions',
       geom_line(aes(y = value), linewidth = 1) +
       facet_wrap(~titles, scales = 'free_y', nrow = 2) +
       labs(x = 'Days since policy change', y = y_title, title = overall_title, colour = 'Scenario', fill = 'Scenario') +
-      scale_fill_brewer(palette = 'Set1') +
-      scale_color_brewer(palette = 'Set1') +
+      scale_fill_manual(values = run_colours) +
+      scale_colour_manual(values = run_colours) +
       theme_bw(base_size = 20) +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
       scale_x_date(breaks = '3 months')
@@ -310,15 +310,46 @@ covid_tibble = bind_rows(total_tibble, age_tibble) %>%
   rename(scenario = scen_order) %>% # replace scenario number by name
   mutate(date_zero = as.numeric(date - min(date))) # days since policy change
 
+run_colours <- setNames(RColorBrewer::brewer.pal(9, 'Set1'), levels(covid_tibble$scenario)) # assign colours (including observations)
+
+```
+
+## Plots
+
+### Cumulative numbers
+
+```{r}
+
+#| label: fig-cumulative-1
+
+plot_compare_multiple(data = covid_tibble %>% filter(scenario %in% c('Baseline', 'No vaccine', 'No vaccine or AVs', 'No vaccine in U60s')) %>% droplevels(), 
+                      metric = c('infections', 'admissions', 'deaths'), 
+                      min_date = plot_min_date, max_date = plot_max_date,
+                      plot_pick = 'median') +
+  theme(legend.position = c(0.9, -0.1), legend.justification = c(1, 0))
+
 ```
 
 ```{r}
 
-#| label: fig-admissions-and-deaths
+#| label: fig-cumulative-2
+
+plot_compare_multiple(data = covid_tibble %>% filter(scenario %in% c('Baseline', '10% drop in rates', '20-25-year-old rates', 'Euro/other rates', 'Māori rates')) %>% droplevels(),
+                      metric = c('infections', 'admissions', 'deaths'), 
+                      min_date = plot_min_date, max_date = plot_max_date,
+                      plot_pick = 'median') +
+  theme(legend.position = c(0.9, -0.1), legend.justification = c(1, 0))
+
+```
+
+
+### Numbers relative to baseline
+
+```{r}
+
+#| label: fig-compare-to-baseline
 
 plot_compare_multiple(metric = c('infections', 'admissions', 'deaths'), min_date = plot_min_date, max_date = plot_max_date) + 
   theme(legend.position = c(0.9, -0.1), legend.justification = c(1, 0))
-
-
 
 ```
