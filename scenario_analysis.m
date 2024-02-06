@@ -58,9 +58,9 @@ pop16 = poolOver75s(popData, ethNames);
 % Define compartor scenario for each scenario to comapre to:
 scenarioLabels = categorical(["Baseline", "No vaccine", "No AVs", "No vaccine or AVs", "No vaccine in U60s", "10% drop in rates", "20-25-year-old rates", "Maori rates", "Euro/other rates"]);
 nScenarios = length(scenarioLabels);
-scenarioBase = repmat("Baseline", 1 , nScenarios);
-scenarioBase(scenarioLabels == "No vaccine or AVs") = "No AVs";
-scenarioBase(scenarioLabels == "Maori rates") = "Euro/other rates";
+scenarioBase = repmat("Baseline", 1 , nScenarios);                  % for most scenarios, use baseline as the comparator scenario 
+scenarioBase(scenarioLabels == "No vaccine or AVs") = "No AVs";     % for no vaccine or AVs, use no AVs as the comparator
+scenarioBase(scenarioLabels == "Maori rates") = "Euro/other rates"; % for the Maori rates scenario, use the European rates as the comparator 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
